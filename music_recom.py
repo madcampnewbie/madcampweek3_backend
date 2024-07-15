@@ -33,7 +33,7 @@ def ask_gemini_for_music_recommendation(diary_entry, genre):
         
         # 응답을 텍스트로 추출
         response_text = gemini_response.text if gemini_response and gemini_response.text else "추천할 음악을 생성할 수 없습니다."
-        
+        print(response_text)
         # 추천 음악과 이유를 분리하여 추출
         recommendations = ["추천할 음악을 생성할 수 없습니다."] * 3
         reasons = [""] * 3
@@ -61,21 +61,17 @@ def ask_gemini_for_music_recommendation(diary_entry, genre):
         return ["Error: Failed to get recommendation from Gemini."] * 3, [""] * 3
 
 def search_spotify(track, artist):
-    query = f"track:{track} artist:{artist}"
-    results = spotify.search(q=query, type='track', limit=1)
-    tracks = results['tracks']['items']
-    
-    if tracks:
-        return tracks[0]['external_urls']['spotify']
-    else:
-        # 다른 형식으로 재시도
-        query = f"{artist} {track}"
+    queries = [
+        f"{track} {artist}",
+        f"track:{track} artist:{artist}",
+        f"{track}"
+    ]
+    for query in queries:
         results = spotify.search(q=query, type='track', limit=1)
         tracks = results['tracks']['items']
         if tracks:
             return tracks[0]['external_urls']['spotify']
-        else:
-            return "No Spotify link found."
+    return "No Spotify link found."
 
 if __name__ == '__main__':
     while True:
@@ -88,13 +84,17 @@ if __name__ == '__main__':
         # Gemini API를 사용하여 음악 추천 가져오기
         recommendations, reasons = ask_gemini_for_music_recommendation(diary_entry, genre)
         
+        spotify_links = []
         for i in range(3):
             if "by" in recommendations[i]:
                 track, artist = recommendations[i].split(" by ")
                 spotify_link = search_spotify(track.strip(), artist.strip())
+                spotify_links.append(spotify_link)
                 print(f"Music Recommendation {i+1}: {recommendations[i]}")
                 print(f"Reason {i+1}: {reasons[i]}")
                 print(f"Spotify Link {i+1}: {spotify_link}")
             else:
                 print(f"Music Recommendation {i+1}: {recommendations[i]}")
                 print(f"Reason {i+1}: {reasons[i]}")
+        
+        print("Spotify Links:", spotify_links)
