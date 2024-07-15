@@ -20,7 +20,7 @@ def ask_gemini_for_music_recommendation(diary_entry, genre):
     try:
         # Google Gemini API를 사용하여 일기와 장르에 맞는 음악 추천
         model = genai.GenerativeModel('gemini-pro')
-        prompt = (f'Based on the following diary entry and the preferred genre "{genre}", recommend three suitable songs with their artists. '
+        prompt = (f'Based on the following diary entry and the preferred genre "{genre}", recommend three suitable songs with their artists using Spotify music data. '
                   f'Provide each recommendation in the following format:\n'
                   f'Music Recommendation 1: [Song Title] by [Artist]\n'
                   f'Reason 1: [Reason for Recommendation]\n'
@@ -62,9 +62,9 @@ def ask_gemini_for_music_recommendation(diary_entry, genre):
 
 def search_spotify(track, artist):
     queries = [
-        f"{track} {artist}",
         f"track:{track} artist:{artist}",
-        f"{track}"
+        f"{track} {artist}",
+        f"{track}",
     ]
     for query in queries:
         results = spotify.search(q=query, type='track', limit=1)
