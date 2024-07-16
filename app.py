@@ -85,6 +85,7 @@ def recommend():
     return jsonify(result)
 
 def ask_gemini_for_music_recommendation(diary_entry, genre):
+    print(genre)
     try:
         model = genai.GenerativeModel('gemini-pro')
         prompt = (f'Based on the following diary entry and the preferred genre "{genre}", recommend three suitable songs with their artists. '
