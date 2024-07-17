@@ -10,12 +10,12 @@ app = Flask(__name__)
 CORS(app)
 
 # Google Gemini API Key 설정
-GEMINI_API_KEY = 'AIzaSyDAqUu3rya4Fg7JMKcsoEgKTpyXDjPOeMA'  # 여기에 실제 Google Gemini API Key를 입력하세요
+GEMINI_API_KEY = ''  # 여기에 실제 Google Gemini API Key를 입력하세요
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Spotify API Key 설정
-SPOTIFY_CLIENT_ID = '746e94ef4d33426b958a92ea44fc549b'  # 여기에 실제 Spotify Client ID를 입력하세요
-SPOTIFY_CLIENT_SECRET = 'd51c96b3b17c4f82a926535f77d8f7b1'  # 여기에 실제 Spotify Client Secret을 입력하세요
+SPOTIFY_CLIENT_ID = ''  # 여기에 실제 Spotify Client ID를 입력하세요
+SPOTIFY_CLIENT_SECRET = ''  # 여기에 실제 Spotify Client Secret을 입력하세요
 spotify_auth_manager = SpotifyClientCredentials(client_id=SPOTIFY_CLIENT_ID, client_secret=SPOTIFY_CLIENT_SECRET)
 spotify = spotipy.Spotify(auth_manager=spotify_auth_manager)
 
